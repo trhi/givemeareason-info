@@ -1,17 +1,96 @@
 <html>
 <head>
-  <title>Give Me a Reason</title>
+  <title>givemeareason.info</title>
   <meta name="viewport" content="width=device-width">
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <style>
+    img {
+      width: 30vw;
+    }
+    button {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-repeat: no-repeat;
+      background-size: 300px;
+      border: 0px;
+    }
+
+  </style>
 </head>
 <body>
-  <p>Please select the project you would like to view:</p>
+  <div id="recognitionDiv" style="border:1px dotted black; border-radius:8px; visibility:visible">
+    <p color="gray" class="pulse"> ... Please select the project you would like to view</p>
+  </div>
   <br>
-  <p>Give Me a Reason (2016): available <a href="https://terhimarttila.com/give-me-a-reason">here</a></p>
-  <p>We Cannot Take Them All (2019): available <a href="https://terhimarttila.com/we-cannot-take-them-all">here</a></p>
-  <p>Particles Moving - Moving Particles (2020): available <a href="https://terhimarttila.com/moving-particles/">here</a></p>
+  <div id="buttons">
+    <form>
+        <button type="button" id="giveMeAReason" onmouseenter="changeImage(this.id)" onmouseleave="changeImage(this.id)" style="background-image: url(images/give-me-a-reason.png)" onclick="imageClick('https://terhimarttila.com/give-me-a-reason')" alt="https://terhimarttila.com/give-me-a-reason"</button>
+        <br>
+        <button type="button" id="weCannotTakeThemAll" onmouseenter="changeImage(this.id)" onmouseleave="changeImage(this.id)" style="background-image: url(images/we-cannot-take-them-all.png)" onclick="imageClick('https://terhimarttila.com/we-cannot-take-them-all')" alt="https://terhimarttila.com/we-cannot-take-them-all"</button>
+        <br>
+        <button type="button" id="movingParticles" onmouseenter="changeImage(this.id)" onmouseleave="changeImage(this.id)" style="background-image: url(images/why-are-you-here.png)" onclick="imageClick('https://terhimarttila.com/moving-particles')" alt="https://terhimarttila.com/moving-particles"</button>
+        <br>
+    </form>
+    <!--
+    <form>
+        <button type="button" id="listenToMeButton" style="visibility:hidden" onmouseenter="changeImage(this.id)" onmouseleave="changeImage(this.id)" style="background-image: url(images/listen-to-me.png)" onclick="startRecogniser()" alt="Listen to me"</button>
+    </form>
+    <br>
+    -->
+
+  </div>
   <script src="javascripts/scale.fix.js"></script>
+
+  <script>
+
+  function pulse(){
+    $(this).animate({opacity:0},1000,function(){
+      $(this).animate({opacity:1},1000,pulse)
+    })
+  }
+
+  function stop(){
+    $(this).stop(false,false).css({opacity:1})
+  }
+
+  //attributes methods pulse() and stop() to all elements in class "pulse"
+  $(function(){
+    $('.pulse').each(
+      function(){
+        var that=this;
+        setTimeout(
+          function() {pulse.call(that)},
+          Math.random()*1000);
+        }
+      )
+    })
+
+    var buttonImages = [
+      {id:"giveMeAReason", src:["give-me-a-reason.png", "nothing.png", "why-do-you-help.png"]},
+      {id:"weCannotTakeThemAll", src:["we-cannot-take-them-all.png", "nothing.png", "what-is-happening-to-the-others.png", "listen-to-me.png"]},
+      {id:"movingParticles", src:["why-are-you-here.png", "nothing.png", "why-are-you-t-here", "why-are-you-there.png", "particles-moving.png", "moving-particles.png", "why-are-you-moving-particles.png", "why-are-you-moving.png"]}
+    ];
+
+    function imageClick(url){
+      window.location = url;
+    }
+
+    function changeImage(id){
+      console.log("mouse moved");
+      for(var i = 0; i < buttonImages.length; i++){
+        if(id == buttonImages[i].id){
+          console.log("found the relevant id!" + buttonImages[i].id);
+          var randomIndex = Math.floor(Math.random() * buttonImages[i].src.length);
+          console.log("random index is:" + randomIndex);
+          $("#" + id).css("background-image", "url(images/" + buttonImages[i].src[randomIndex] + ")");
+        }
+      }
+    }
+  </script>
 </body>
 </html>
